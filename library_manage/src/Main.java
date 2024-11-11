@@ -11,19 +11,17 @@ public class Main {
 
         Member member = new Member(account,password,"user");
         System.out.println("成功登入" + "歡迎" + member.name);
+        Library manages = new Library();
+        manages.addBook();
 
         while (true){
             member.getIofo();
             String userAnswer = sc.nextLine();
             int answer = member.UserAnswer(userAnswer);
-            Library manages = new Library();
-            manages.addBook();
             manages.runbook(userAnswer);
             if (answer == 3){
                 break;
             }
-
-
         }
     }
 }

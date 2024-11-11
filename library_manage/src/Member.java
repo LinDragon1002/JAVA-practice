@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+
 public class Member {
     String account;
     String password;
     String name;
+    ArrayList<String> allBook = new ArrayList<>();
 
     public Member(String account,String password,String name){
         this.account = account;
@@ -37,11 +40,13 @@ public class Member {
         }
     }
 
-    public void borrowBook(String book){
-
+    public void borrowBook(String book, int checkAns){
+        allBook.add(book);
+        System.out.println("成功借閱" + book);
     }
 
     public void returnBook(String book){
-
+        allBook.remove(book);
+        System.out.println("已歸還" + book);
     }
 }
