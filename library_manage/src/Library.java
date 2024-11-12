@@ -56,7 +56,7 @@ class Library implements Manage{
     }
 
     @Override
-    public String runbook(String choose){
+    public String runBook(String choose){
         String book = "";
         if (choose.equals("A")){
             System.out.print("請輸入想借書名：");
@@ -85,5 +85,10 @@ class Library implements Manage{
             System.out.println();
         }
         return book;
+    }
+
+    @Override
+    public void addBook(String book){
+
     }
 }

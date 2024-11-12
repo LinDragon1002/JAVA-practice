@@ -11,14 +11,6 @@ public class Book {
         this.borrow = borrow;
     }
 
-    public void borrow(){
-
-    }
-
-    public void returnBook(){
-
-    }
-
     public String toString(){
         return this.name;
     }
