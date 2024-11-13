@@ -15,80 +15,36 @@ class Library implements Manage {
         return books;
     }
 
-//    private String printCheckBookResult(String book) {
-//        boolean checkBook = false;
-//        for (int i = 0; i < books.size(); i++) {
-//            if (books.get(i).name.equals(book)) {
-//                if (books.get(i).borrow.equals(false)) {
-//                    return "沒有被借走了";
-//                }else{
-//                    return "被借走了";
-//                }
-//            }else{
-//                checkBook = true;
-//            }
-//        }
-//        if (checkBook){
-//            return "找不到這本書";
-//        }else{
-//
-//        }
-//        return "";
-//        int checkAnswer = checkBook(book);
-//        if (checkAnswer <= books.size()) {
-//            System.out.println(book + "沒有被借走了");
-//        } else if (checkAnswer >= books.size() + 1 || checkAnswer <= books.size() * 2 + 1) {
-//            System.out.println(book + "被借走了");
-//        } else if (checkAnswer >= books.size() * 2 + 2) {
-//            System.out.println("找不到這本書");
-//        }
-//    }
-
     @Override
     public void borrowBook(String book) {
-        int run = 0;
         for (Book book1 : books){
             if (book1.name.equals(book)){
-                book1.borrow = true;
-                System.out.println("成功借閱" + book1.name);
-                break;
-            }else{
-                run++;
+                if (book1.borrow.equals(false)){
+                    book1.borrow = true;
+                    System.out.println("成功借閱" + book1.name);
+                }else{
+                    System.out.println(book1.name + "被借走了");
+                }
             }
         }
-        if (run > 0){
-            System.out.println(book + "被借走了");
-        }
-//        if (book >= books.size()) {
-//            System.out.println(books.get(book - books.size() - 1).name + "被借走了");
-//        } else {
-//            books.get(book).borrow = true;
-//            System.out.println("成功借閱" + books.get(book).name);
-//        }
     }
 
     @Override
     public void returnBook(String book) {
         for (Book book1 : books){
             if (book1.name.equals(book)){
-                book1.borrow = false;
-                System.out.println("已歸還" + book1.name);
-            }else{
-                System.out.println("沒有借閱" + book1.name);
+                if (book1.borrow.equals(true)) {
+                    book1.borrow = false;
+                    System.out.println("已歸還" + book1.name);
+                }else{
+                    System.out.println("沒有借閱" + book1.name);
+                }
             }
         }
-//        if (book <= books.size()) {
-//            System.out.println("沒有借閱" + books.get(book - books.size() - 1).name);
-//        } else {
-//            books.get(book - books.size() - 1).borrow = false;
-//            System.out.println("已歸還" + books.get(book - books.size() - 1).name);
-//        }
     }
 
     @Override
     public String inputBook() {
-//        String getBook = sc.nextLine();
-//        return printCheckBookResult(getBook);
         return sc.nextLine();
     }
 
@@ -106,13 +62,11 @@ class Library implements Manage {
             case "C":
                 System.out.print("請輸入查詢書名：");
                 String book = sc.nextLine();
-//                printCheckBookResult(book);
+                checkBook(book);
                 break;
         }
         System.out.println();
     }
-
-
 
     @Override
     public void addBook(int choose) {
@@ -125,7 +79,7 @@ class Library implements Manage {
                 break;
             case 2:
                 String book = sc.nextLine();
-//                printCheckBookResult(book);
+                checkBook(book);
                 break;
         }
     }
@@ -160,24 +114,23 @@ class Library implements Manage {
         }
     }
 
-//    @Override
-//    public int checkBook(String book) {
-//        int run = 0;
-//        for (int i = 0; i < books.size(); i++) {
-//            if (books.get(i).name.equals(book)) {
-//                if (books.get(i).borrow.equals(false)) {
-//                    return i;
-//                } else {
-//                    return books.size() + 1 + i;
-//                }
-//            } else {
-//                run++;
-//            }
-//        }
-//        if (run >= books.size()) {
-//            return books.size() * 2 + 2;
-//        }
-//        return books.size() + 3;
-//    }
+    @Override
+    public void checkBook(String book) {
+        int run = 0;
+        for (Book book1 : books){
+            if (book1.name.equals(book)){
+                if (book1.borrow.equals(false)) {
+                    System.out.println(book1.name + "沒有被借走");
+                }else{
+                    System.out.println(book1.name + "被借走");
+                }
+            }else {
+                run++;
+            }
+        }
 
+        if (run >= books.size()){
+            System.out.println("沒有" + book + "這本書");
+        }
+    }
 }
