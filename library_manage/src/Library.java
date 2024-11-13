@@ -7,7 +7,7 @@ class Library implements Manage {
     Scanner sc = new Scanner(System.in);
 
     @Override
-    public List<Book> addBook() {
+    public List<Book> allBook() {
         books.add(new Book("who", "me", 123456789, false));
         books.add(new Book("wolf", "you", 987654321, false));
         books.add(new Book("apple", "brother", 456789123, true));
@@ -90,7 +90,6 @@ class Library implements Manage {
         } else if (checkAnswer >= books.size() * 2 + 2) {
             System.out.println("找不到這本書");
         }
-//        System.out.println();
     }
 
     @Override

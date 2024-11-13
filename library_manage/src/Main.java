@@ -8,7 +8,7 @@ public class Main {
         Member member = new Member("user","123456","user");
         Member manager = new Manager("manager","654321","manager");
         Library manages = new Library();
-        manages.addBook();
+        manages.allBook();
 
         while (true){
             System.out.println("請選擇以下登入方式：");

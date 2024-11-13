@@ -1,6 +1,6 @@
 import java.util.*;
 interface Manage {
-    List<Book> addBook();
+    List<Book> allBook();
     void borrowBook(int book);
     void returnBook(int book);
     void runBook(String choose);
