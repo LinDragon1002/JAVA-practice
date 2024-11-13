@@ -20,6 +20,7 @@ public class Main {
                 if (rely == 0){
                     while (true){
                         member.getIofo();
+                        System.out.println("現在有"+manages.books.size()+"本書");
                         String userAnswer = sc.nextLine();
                         int answer = member.UserAnswer(userAnswer);
                         manages.runBook(userAnswer);
@@ -36,6 +37,7 @@ public class Main {
                 if (rely == 0){
                     while (true){
                         manager.getIofo();
+                        System.out.println("現在有"+manages.books.size()+"本書");
                         String userAnswer = sc.nextLine();
                         int answer = manager.UserAnswer(userAnswer);
                         manages.addBook(answer);
