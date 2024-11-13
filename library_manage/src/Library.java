@@ -78,6 +78,7 @@ class Library implements Manage {
                 printCheckBookResult(getBook);
                 break;
         }
+        System.out.println();
     }
 
     private void printCheckBookResult(String book) {
@@ -89,7 +90,7 @@ class Library implements Manage {
         } else if (checkAnswer >= books.size() * 2 + 2) {
             System.out.println("找不到這本書");
         }
-        System.out.println();
+//        System.out.println();
     }
 
     @Override
