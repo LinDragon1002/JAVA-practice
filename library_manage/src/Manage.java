@@ -5,5 +5,5 @@ interface Manage {
     void returnBook(int book);
     String runBook(String choose);
     int checkBook(String book);
-    void addBook(String book);
+    void addBook(int book);
 }

@@ -88,7 +88,33 @@ class Library implements Manage{
     }
 
     @Override
-    public void addBook(String book){
-        System.out.println("are");
+    public void addBook(int choose){
+        if (choose == 0){
+            System.out.print("請輸入新增書籍名稱：");
+            String name = sc.nextLine();
+            System.out.print("請輸入新增書籍作者：");
+            String author = sc.nextLine();
+            System.out.print("請輸入新增書籍ISBN：");
+            int ISBN = sc.nextInt();
+            books.add(new Book(name,author,ISBN,false));
+            System.out.println("成功新增" + name);
+
+        }else if (choose == 1){
+            System.out.print("請輸入刪除書籍名稱：");
+            String name = sc.nextLine();
+            books.remove(name);
+            System.out.println("成功刪除" + name);
+        }else if (choose == 2){
+            String book = sc.nextLine();
+            int checkAnswer = checkBook(book);
+            if (checkAnswer <= books.size()){
+                System.out.println(book + "沒有被借走了");
+            }else if (checkAnswer >= books.size()+1 || checkAnswer <= books.size()*2+1){
+                System.out.println(book + "被借走了");
+            }else if (checkAnswer >= books.size()*2+2){
+                System.out.println("找不到這本書");
+            }
+            System.out.println();
+        }
     }
 }

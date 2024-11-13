@@ -38,8 +38,8 @@ public class Main {
                         manager.getIofo();
                         String userAnswer = sc.nextLine();
                         int answer = manager.UserAnswer(userAnswer);
-                        manages.addBook();
-                        if (answer == 2){
+                        manages.addBook(answer);
+                        if (answer == 3){
                             break;
                         }
                     }
