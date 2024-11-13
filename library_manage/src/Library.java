@@ -56,35 +56,35 @@ class Library implements Manage{
     }
 
     @Override
-    public String runBook(String choose){
-        String book = "";
-        if (choose.equals("A")){
-            System.out.print("請輸入想借書名：");
-            String getBook = sc.nextLine();
-            int checkAnswer = checkBook(getBook);
-            borrowBook(checkAnswer);
-            book = getBook;
+    public int inputBook(){
+        String getBook = sc.nextLine();
+        return checkBook(getBook);
+    }
 
-        }else if (choose.equals("B")){
-            System.out.print("請輸入歸還書名：");
-            String getBook = sc.nextLine();
-            int checkAnswer = checkBook(getBook);
-            returnBook(checkAnswer);
-            book = getBook;
-
-        }else if (choose.equals("C")){
-            String getBook = sc.nextLine();
-            int checkAnswer = checkBook(getBook);
-            if (checkAnswer <= books.size()){
-                System.out.println(getBook + "沒有被借走了");
-            }else if (checkAnswer >= books.size()+1 || checkAnswer <= books.size()*2+1){
-                System.out.println(getBook + "被借走了");
-            }else if (checkAnswer >= books.size()*2+2){
-                System.out.println("找不到這本書");
-            }
-            System.out.println();
+    @Override
+    public void runBook(String choose){
+        switch (choose){
+            case "A":
+                System.out.print("請輸入想借書名：");
+                borrowBook(inputBook());
+                break;
+            case "B":
+                System.out.print("請輸入歸還書名：");
+                returnBook(inputBook());
+                break;
+            case "C":
+                System.out.print("請輸入查詢書名：");
+                String getBook = sc.nextLine();
+                int checkAnswer = checkBook(getBook);
+                if (checkAnswer <= books.size()){
+                    System.out.println(getBook + "沒有被借走了");
+                }else if (checkAnswer >= books.size()+1 || checkAnswer <= books.size()*2+1){
+                    System.out.println(getBook + "被借走了");
+                }else if (checkAnswer >= books.size()*2+2){
+                    System.out.println("找不到這本書");
+                }
+                System.out.println();
         }
-        return book;
     }
 
     @Override

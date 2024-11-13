@@ -6,7 +6,7 @@ public class Main {
         System.out.println("歡迎使用本圖書館系統");
 
         Member member = new Member("user","123456","user");
-        Member manager = new manager("manager","654321","manager");
+        Member manager = new Manager("manager","654321","manager");
         Library manages = new Library();
         manages.addBook();
 

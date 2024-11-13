@@ -1,5 +1,5 @@
-public class manager extends Member{
-    public manager(String account,String password,String name){
+public class Manager extends Member{
+    public Manager(String account, String password, String name){
         super(account,password,name);
     }
 

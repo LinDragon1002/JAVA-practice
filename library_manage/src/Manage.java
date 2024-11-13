@@ -3,7 +3,8 @@ interface Manage {
     List<Book> addBook();
     void borrowBook(int book);
     void returnBook(int book);
-    String runBook(String choose);
+    void runBook(String choose);
     int checkBook(String book);
     void addBook(int book);
+    int inputBook();
 }
