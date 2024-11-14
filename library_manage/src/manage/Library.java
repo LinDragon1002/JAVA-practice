@@ -1,9 +1,11 @@
+package manage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-class Library implements Manage {
-    List<Book> books = new ArrayList<>();
+public class Library implements ManageInterface {
+    public List<Book> books = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
 
     @Override
@@ -50,7 +52,7 @@ class Library implements Manage {
 
     @Override
     public void runBook(String choose) {
-        switch (choose) {
+        switch (choose.toUpperCase()) {
             case "A":
                 System.out.print("請輸入想借書名：");
                 borrowBook(inputBook());

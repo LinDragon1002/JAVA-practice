@@ -1,3 +1,5 @@
+package member;
+
 public class Manager extends Member {
     public Manager(String account, String password, String name) {
         super(account, password, name);
@@ -14,7 +16,7 @@ public class Manager extends Member {
 
     @Override
     public int UserAnswer(String userAnswer) {
-        switch (userAnswer) {
+        switch (userAnswer.toUpperCase()) {
             case "A":
                 return 0;
             case "B":

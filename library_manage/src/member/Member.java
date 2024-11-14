@@ -1,3 +1,5 @@
+package member;
+
 import java.util.Scanner;
 
 public class Member {
@@ -57,7 +59,7 @@ public class Member {
     }
 
     public int UserAnswer(String userAnswer) {
-        switch (userAnswer) {
+        switch (userAnswer.toUpperCase()) {
             case "A":
                 System.out.println("請問" + this.name + "想要藉哪本書籍？");
                 return 0;

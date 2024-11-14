@@ -1,5 +1,7 @@
+package manage;
+
 import java.util.*;
-interface Manage {
+interface ManageInterface {
     List<Book> allBook();
     void borrowBook(String book);
     void returnBook(String book);
