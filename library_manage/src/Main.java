@@ -9,15 +9,16 @@ public class Main {
         Member manager = new Manager("manager","654321","manager");
         Library manages = new Library();
         manages.allBook();
+        boolean rely = false;
 
-        while (true){
+        while (!rely){
             System.out.println("請選擇以下登入方式：");
             System.out.print("A：使用者　");
             System.out.println("B：管理員");
             String choose = sc.nextLine();
             if (choose.equals("A")){
-                int rely = member.checkMember();
-                if (rely == 0){
+                rely = member.checkMember();
+                if (!rely){
                     while (true){
                         member.getIofo();
                         System.out.println("現在有"+manages.books.size()+"本書");
@@ -28,13 +29,11 @@ public class Main {
                             break;
                         }
                     }
-                    break;
-                }else{
-                    break;
+                    rely = true;
                 }
             }else if (choose.equals("B")){
-                int rely = manager.checkMember();
-                if (rely == 0){
+                rely = manager.checkMember();
+                if (!rely){
                     while (true){
                         manager.getIofo();
                         System.out.println("現在有"+manages.books.size()+"本書");
@@ -45,9 +44,7 @@ public class Main {
                             break;
                         }
                     }
-                    break;
-                }else{
-                    break;
+                    rely = true;
                 }
             }else{
                 System.out.println("請重新輸入");

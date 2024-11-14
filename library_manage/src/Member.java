@@ -4,6 +4,7 @@ public class Member {
     String account;
     String password;
     String name;
+    int check = 1;
 
     public Member(String account, String password, String name) {
         this.account = account;
@@ -11,37 +12,40 @@ public class Member {
         this.name = name;
     }
 
-    public int checkMember() {
+    public boolean checkMember() {
         Scanner sc = new Scanner(System.in);
-        int check = 0;
-        while (true) {
+        boolean check = true;
+        while (this.check > 0) {
             System.out.print("請輸入帳戶：");
             String account = sc.nextLine();
             System.out.print("請輸入密碼：");
             String password = sc.nextLine();
-            if (validateAccount(account, password)) {
-                break;
-            } else if (account.equals("none") || password.equals("none")) {
-                System.out.println("謝謝下次蒞臨");
-                check = 1;
-                break;
+            validateAccount(account, password);
+            if (this.check == 0){
+                System.out.println("三次失敗，無法登入");
+            }else if (this.check == -1){
+                check = false;
             }
         }
         return check;
     }
 
-    private boolean validateAccount(String account, String password) {
+    private void validateAccount(String account, String password) {
         if (account.equals(this.account)) {
             if (password.equals(this.password)) {
                 System.out.println("成功登入" + "歡迎" + name);
-                return true;
+                check = -1;
             } else {
-                System.out.println("登入失敗，密碼有誤");
+                System.out.println("第" + check + "次錯誤　登入失敗，密碼有誤");
+                check += 1;
             }
         } else {
-            System.out.println("登入失敗，查無此帳號");
+            System.out.println("第" + check + "次錯誤　登入失敗，查無此帳號");
+            check += 1;
         }
-        return false;
+        if (check > 3){
+            check = 0;
+        }
     }
 
     public void getIofo() {
