@@ -1,3 +1,4 @@
+//包裝到member資料夾
 package member;
 
 //繼承Member的class

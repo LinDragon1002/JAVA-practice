@@ -1,3 +1,4 @@
+//包裝到manage資料夾
 package manage;
 
 import java.util.ArrayList;

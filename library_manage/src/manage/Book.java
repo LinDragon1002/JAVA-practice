@@ -1,3 +1,4 @@
+//包裝到manage資料夾
 package manage;
 
 //書本的基本資料：書名、作者、ISBN、是否被借閱
