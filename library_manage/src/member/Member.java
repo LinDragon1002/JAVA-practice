@@ -2,6 +2,7 @@ package member;
 
 import java.util.Scanner;
 
+//設定變數儲存帳號、密碼、姓名和登入檢查
 public class Member {
     String account;
     String password;
@@ -14,6 +15,7 @@ public class Member {
         this.name = name;
     }
 
+    //輸入帳號和密碼，檢查登入的帳號和密碼是否正確
     public boolean checkMember() {
         Scanner sc = new Scanner(System.in);
         boolean check = true;
@@ -32,6 +34,7 @@ public class Member {
         return check;
     }
 
+    //檢查輸入的帳號和密碼是哪裡錯誤和提醒使用者錯誤幾次
     private void validateAccount(String account, String password) {
         if (account.equals(this.account)) {
             if (password.equals(this.password)) {
@@ -50,6 +53,7 @@ public class Member {
         }
     }
 
+    //提供使用者下一步要做的資訊
     public void getIofo() {
         System.out.println("請問你需要甚麼幫助？");
         System.out.print("A：借書　");
@@ -58,6 +62,7 @@ public class Member {
         System.out.println("D：退出");
     }
 
+    //檢查使用者輸入是否正確和告知使用者下一步要做的資訊
     public int UserAnswer(String userAnswer) {
         switch (userAnswer.toUpperCase()) {
             case "A":

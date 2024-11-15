@@ -1,10 +1,12 @@
 package member;
 
+//繼承Member的class
 public class Manager extends Member {
     public Manager(String account, String password, String name) {
         super(account, password, name);
     }
 
+    //複寫並改成管理者的資訊
     @Override
     public void getIofo() {
         System.out.println("請問你需要甚麼幫助？");
@@ -14,6 +16,7 @@ public class Manager extends Member {
         System.out.println("D：退出");
     }
 
+    //複寫並檢查使用者輸入是否正確和告知使用者下一步要做的資訊
     @Override
     public int UserAnswer(String userAnswer) {
         switch (userAnswer.toUpperCase()) {
