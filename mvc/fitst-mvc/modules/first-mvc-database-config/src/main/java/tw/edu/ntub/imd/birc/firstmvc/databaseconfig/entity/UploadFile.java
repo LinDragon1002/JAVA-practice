@@ -32,8 +32,6 @@ public class UploadFile {
     @Column(name = "create_time", nullable = false)
     private LocalDateTime create_time;
 
-    @OneToMany(mappedBy = "uploadFile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UploadFile> file;
 
 
 }
