@@ -25,7 +25,7 @@ public class Author {
     private String name;
 
     @Column(name = "birthdate", nullable = false)
-    private Date birthdate;
+    private LocalDate birthdate;
 
     @Column(name = "create_time", nullable = false)
     private LocalDateTime create_time;

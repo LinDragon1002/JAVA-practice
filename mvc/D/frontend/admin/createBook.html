@@ -163,7 +163,7 @@
   function submitForm() {
       const formData = new FormData();
       formData.append('name', document.getElementById('name').value);
-      formData.append('publicationDate', document.getElementById('date').value);
+      formData.append('publicationDateStr', document.getElementById('date').value);
       formData.append('info', document.getElementById("info").value);
       formData.append('author_id', document.getElementById('authorSelect').value);
       const fileInput = document.getElementById('files');

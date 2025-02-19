@@ -1,18 +1,18 @@
 server:
-  ip: {你的IP}
+  ip: 127.0.0.1
   delegate-port: 8080
   image:
     name: image
-    path: {'範例 D:\first-mvc\UploadFile\${server.image.name}\'}
+    path: C:\first-mvc\UploadFile\${server.image.name}\
   file:
     name: file
-    path: {'範例 D:\first-mvc\UploadFile\${server.file.name}\'}
+    path: C:\first-mvc\UploadFile\${server.file.name}\
 logging:
   level:
     sqltiming: DEBUG
     resultsettable: DEBUG
 first-mvc:
   database:
-    url: jdbc:log4jdbc:mysql://{資料庫IP}:{port}/{資料庫名字}?serverTimezone=Asia/Taipei
-    account: {帳號}
-    password: {密碼}
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/student_db?serverTimezone=Asia/Taipei
+    account: root
+    password: 11346075

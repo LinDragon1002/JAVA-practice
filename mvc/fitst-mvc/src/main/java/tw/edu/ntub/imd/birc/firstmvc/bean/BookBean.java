@@ -19,7 +19,7 @@ public class BookBean {
     private String name;
 
     @NotNull(message = "日期 - 未填寫")
-    private Date publication_date;
+    private String publicationDateStr;
 
     @Null(message = "日期 - 不能填寫")
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -32,6 +32,8 @@ public class BookBean {
     private String info;
 
     private Author author;
+
+    private LocalDate publicationDate;
 
     private MultipartFile[] files;
 }

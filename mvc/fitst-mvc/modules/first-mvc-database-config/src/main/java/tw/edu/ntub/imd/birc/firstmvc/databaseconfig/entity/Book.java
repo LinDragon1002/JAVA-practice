@@ -25,7 +25,7 @@ public class Book {
     private String name;
 
     @Column(name = "publication_date", nullable = false)
-    private Date publication_date;
+    private LocalDate publicationDate;
 
     @ManyToOne
     @JoinColumn(name = "author_id", insertable = false, updatable = false)

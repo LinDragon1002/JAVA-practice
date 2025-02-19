@@ -16,9 +16,6 @@ public class BookListener {
         if (book.getCreate_time() == null) {
             book.setCreate_time(LocalDateTime.now());
         }
-//        if (book.getPublication_date() == null) {
-//            book.setPublication_date(LocalDate.now());
-//        }
 //        if (book.getAuthor_id() == null) {
 //            book.getAuthor().getId();
 //        }

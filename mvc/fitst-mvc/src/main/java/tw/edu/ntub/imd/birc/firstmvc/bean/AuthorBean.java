@@ -18,7 +18,7 @@ public class AuthorBean {
     private String name;
 
     @NotNull(message = "日期 - 未填寫")
-    private Date birthdate;
+    private String birthdateStr;
 
     @Null(message = "日期 - 不能填寫")
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -26,5 +26,7 @@ public class AuthorBean {
 
     @NotBlank(message = "資訊 - 未填寫")
     private String info;
+
+    private LocalDate birthdate;
 }
 

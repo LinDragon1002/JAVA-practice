@@ -151,12 +151,12 @@
 <script>
     function submitForm() {
         const name = document.getElementById('name').value;
-        const birthDate = document.getElementById('date').value;
+        const birthdateStr = document.getElementById('date').value;
         const info = document.getElementById("info").value;
         const authorData = {
             name: name,
             info: info,
-            birthDate: birthDate
+            birthdateStr: birthdateStr
         };
 
         const apiUrl = 'http://127.0.0.1:8080/author';

@@ -10,6 +10,7 @@ import tw.edu.ntub.imd.birc.firstmvc.bean.AuthorBean;
 import tw.edu.ntub.imd.birc.firstmvc.bean.BookBean;
 //import tw.edu.ntub.imd.birc.firstmvc.bean.UploadFileBean;
 import tw.edu.ntub.imd.birc.firstmvc.bean.UploadFileBean;
+import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.entity.Book;
 import tw.edu.ntub.imd.birc.firstmvc.dto.file.uploader.MultipartFileUploader;
 import tw.edu.ntub.imd.birc.firstmvc.dto.file.uploader.Uploader;
 import tw.edu.ntub.imd.birc.firstmvc.service.AuthorService;
@@ -24,6 +25,9 @@ import tw.edu.ntub.imd.birc.firstmvc.util.json.object.ObjectData;
 import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 @AllArgsConstructor
 @RestController
@@ -33,28 +37,23 @@ public class LibraryController {
     private final AuthorService authorService;
     private final UploadFileService uploadFileService;
 
-    @PostMapping(path = "")
-    public ResponseEntity<String> uploadFile(String tableName,
-                                             Integer tableId,
-                                             MultipartFile[] files) {
+    @PostMapping(path = "/book")
+    public ResponseEntity<String> createLibrary(@Valid BookBean bookBean,
+                                                BindingResult bindingResult,
+                                                MultipartFile[] files) {
         for(MultipartFile file : files) {
             UploadFileBean uploadFileBean = new UploadFileBean();
-            uploadFileBean.setTable_id(tableId);
-            uploadFileBean.setTable_name(tableName);
+            uploadFileBean.setTable_id(1);
+            uploadFileBean.setTable_name(bookBean.getName());
             uploadFileBean.setFile(file);
             uploadFileService.save(uploadFileBean);
         }
-        return ResponseEntityBuilder.success()
-                .message("新增成功")
-                .build();
-    }
-
-    @PostMapping(path = "/book")
-    public ResponseEntity<String> createLibrary(@Valid BookBean bookBean,
-                                                BindingResult bindingResult) {
 
         BindingResultUtils.validate(bindingResult);
-        uploadFile(bookBean.getName(), 1, bookBean.getFiles());
+        String dateStr = bookBean.getPublicationDateStr(); // 取得日期字串
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 設定格式
+        bookBean.setPublicationDate(LocalDate.parse(dateStr, formatter)); // 設定 LocalDate
+
         bookService.save(bookBean);
         return ResponseEntityBuilder.success()
                 .message("新增成功")
@@ -65,6 +64,9 @@ public class LibraryController {
     public ResponseEntity<String> createLibrary(@Valid @RequestBody AuthorBean authorBean,
                                                 BindingResult bindingResult) {
         BindingResultUtils.validate(bindingResult);
+        String dateStr = authorBean.getBirthdateStr();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        authorBean.setBirthdate(LocalDate.parse(dateStr, formatter));
         authorService.save(authorBean);
         return ResponseEntityBuilder.success()
                 .message("新增成功")
@@ -76,11 +78,11 @@ public class LibraryController {
         ArrayData arrayData = new ArrayData();
         for (BookBean bookBean : bookService.searchAll()) {
             ObjectData objectData = arrayData.addObject();
-            DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             objectData.add("id", bookBean.getSno());
             objectData.add("name" , bookBean.getName());
             objectData.add("info", bookBean.getInfo());
-            objectData.add("publicationDate", formatter.format(bookBean.getPublication_date()));
+            objectData.add("publicationDate", formatter.format(bookBean.getPublicationDate()));
             objectData.add("authorName", bookBean.getAuthor().getName());
             objectData.add("authorId", bookBean.getAuthor().getId());
         }
@@ -94,7 +96,7 @@ public class LibraryController {
     public ResponseEntity<String> getLibraryAuthors() {
         ArrayData arrayData = new ArrayData();
         for (AuthorBean authorBean : authorService.searchAll()) {
-            DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             ObjectData objectData = arrayData.addObject();
             objectData.add("id", authorBean.getId());
             objectData.add("name" , authorBean.getName());
@@ -112,7 +114,7 @@ public class LibraryController {
         ArrayData arrayData = new ArrayData();
 
         for (AuthorBean authorBean : authorService.findAllById(id)) {
-            DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             ObjectData objectData = arrayData.addObject();
             objectData.add("id", id);
             objectData.add("name" , authorBean.getName());
@@ -130,11 +132,11 @@ public class LibraryController {
         ArrayData arrayData = new ArrayData();
         for (BookBean bookBean : bookService.findAllBySno(id)) {
             ObjectData objectData = arrayData.addObject();
-            DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             objectData.add("id", id);
             objectData.add("name" , bookBean.getName());
             objectData.add("info", bookBean.getInfo());
-            objectData.add("publicationDate", formatter.format(bookBean.getPublication_date()));
+            objectData.add("publicationDate", formatter.format(bookBean.getPublicationDate()));
             objectData.add("authorName", bookBean.getAuthor().getName());
             objectData.add("authorId", bookBean.getAuthor_id());
         }
