@@ -64,9 +64,8 @@ public class LibraryController {
     public ResponseEntity<String> createLibrary(@Valid @RequestBody AuthorBean authorBean,
                                                 BindingResult bindingResult) {
         BindingResultUtils.validate(bindingResult);
-        String dateStr = authorBean.getBirthdateStr();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        authorBean.setBirthdate(LocalDate.parse(dateStr, formatter));
+        authorBean.setBirthdate(LocalDate.parse(authorBean.getBirthdateStr(), formatter));
         authorService.save(authorBean);
         return ResponseEntityBuilder.success()
                 .message("新增成功")
