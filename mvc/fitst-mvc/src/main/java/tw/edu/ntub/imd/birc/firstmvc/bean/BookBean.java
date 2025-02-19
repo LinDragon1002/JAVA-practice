@@ -31,9 +31,6 @@ public class BookBean {
     @NotBlank(message = "資訊 - 未填寫")
     private String info;
 
-    @Null(message = "path不能填寫")
-    private String upload_path;
-
     private Author author;
 
     private MultipartFile[] files;

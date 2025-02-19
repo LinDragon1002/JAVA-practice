@@ -9,11 +9,13 @@ import org.springframework.web.multipart.MultipartFile;
 import tw.edu.ntub.imd.birc.firstmvc.bean.AuthorBean;
 import tw.edu.ntub.imd.birc.firstmvc.bean.BookBean;
 //import tw.edu.ntub.imd.birc.firstmvc.bean.UploadFileBean;
+import tw.edu.ntub.imd.birc.firstmvc.bean.UploadFileBean;
 import tw.edu.ntub.imd.birc.firstmvc.dto.file.uploader.MultipartFileUploader;
 import tw.edu.ntub.imd.birc.firstmvc.dto.file.uploader.Uploader;
 import tw.edu.ntub.imd.birc.firstmvc.service.AuthorService;
 import tw.edu.ntub.imd.birc.firstmvc.service.BookService;
 //import tw.edu.ntub.imd.birc.firstmvc.service.UploadFileService;
+import tw.edu.ntub.imd.birc.firstmvc.service.UploadFileService;
 import tw.edu.ntub.imd.birc.firstmvc.util.http.BindingResultUtils;
 import tw.edu.ntub.imd.birc.firstmvc.util.http.ResponseEntityBuilder;
 import tw.edu.ntub.imd.birc.firstmvc.util.json.array.ArrayData;
@@ -29,23 +31,30 @@ import java.text.SimpleDateFormat;
 public class LibraryController {
     private final BookService bookService;
     private final AuthorService authorService;
-//    private final UploadFileService uploadFileService;
+    private final UploadFileService uploadFileService;
+
+    @PostMapping(path = "")
+    public ResponseEntity<String> uploadFile(String tableName,
+                                             Integer tableId,
+                                             MultipartFile[] files) {
+        for(MultipartFile file : files) {
+            UploadFileBean uploadFileBean = new UploadFileBean();
+            uploadFileBean.setTable_id(tableId);
+            uploadFileBean.setTable_name(tableName);
+            uploadFileBean.setFile(file);
+            uploadFileService.save(uploadFileBean);
+        }
+        return ResponseEntityBuilder.success()
+                .message("新增成功")
+                .build();
+    }
+
     @PostMapping(path = "/book")
-    public ResponseEntity<String> createLibrary(@Valid  BookBean bookBean,
-                                                BindingResult bindingResult,
-                                                MultipartFile[] files) {
-
-//        for(MultipartFile file : files) {
-//            UploadFileBean uploadFileBean = new UploadFileBean();
-//            uploadFileBean.setPath(bookBean.getFiles().toString());
-//            uploadFileBean.setName(file.getOriginalFilename());
-//            uploadFileBean.setFiles(files);
-//            uploadFileService.save(uploadFileBean);
-//        }
-
-
+    public ResponseEntity<String> createLibrary(@Valid BookBean bookBean,
+                                                BindingResult bindingResult) {
 
         BindingResultUtils.validate(bindingResult);
+        uploadFile(bookBean.getName(), 1, bookBean.getFiles());
         bookService.save(bookBean);
         return ResponseEntityBuilder.success()
                 .message("新增成功")

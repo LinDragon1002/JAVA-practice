@@ -31,9 +31,9 @@ public class Book {
     @JoinColumn(name = "author_id", insertable = false, updatable = false)
     private Author author;
 
-//    @ManyToOne
-//    @JoinColumn(name = "upload_id", insertable = false, updatable = false)
-//    private UploadFile uploadFile;
+    @ManyToOne
+    @JoinColumn(name = "upload_id", insertable = false, updatable = false)
+    private UploadFile uploadFile;
 
     @Column(name = "author_id", nullable = false)
     private Integer author_id;
@@ -44,6 +44,4 @@ public class Book {
     @Column(name = "info", length = 500, nullable = false)
     private String info;
 
-    @Column(name = "upload_path", length = 500 , nullable = false)
-    private String upload_path;
 }
