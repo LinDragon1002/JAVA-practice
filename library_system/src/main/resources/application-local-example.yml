@@ -1,0 +1,18 @@
+server:
+  ip: 127.0.0.1
+  delegate-port: 8080
+  image:
+    name: image
+    path: C:\first-mvc\UploadFile\${server.image.name}\
+  file:
+    name: file
+    path: C:\first-mvc\UploadFile\${server.file.name}\
+logging:
+  level:
+    sqltiming: DEBUG
+    resultsettable: DEBUG
+first-mvc:
+  database:
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/student_db?serverTimezone=Asia/Taipei
+    account: root
+    password: 11346075
