@@ -21,10 +21,11 @@ public class RecordBean {
     private String RTDateStr;
 
     @Null(message = "最後歸還日期 - 不能填寫")
-    private LocalDate DLDate;
+    private String DLDateStr;
 
     private LocalDate BRDate;
     private LocalDate RTDate;
+    private LocalDate DLDate;
     private Member member;
     private LibraryBook book;
 
