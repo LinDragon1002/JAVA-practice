@@ -32,23 +32,25 @@ public class LibrarySystemController {
 
     @PostMapping(path = "/book")
     public ResponseEntity<String> createbook(@Valid @RequestBody LibraryBookBean libraryBookBean,
+                                             @Valid @RequestBody AuthorBean authorBean,
                                              BindingResult bindingResult) {
         BindingResultUtils.validate(bindingResult);
+        authorService.save(authorBean);
         libraryBookService.save(libraryBookBean);
         return ResponseEntityBuilder.success()
                 .message("新增成功")
                 .build();
     }
 
-    @PostMapping(path = "/author")
-    public ResponseEntity<String> createauthor(@Valid @RequestBody AuthorBean authorBean,
-                                               BindingResult bindingResult) {
-        BindingResultUtils.validate(bindingResult);
-        authorService.save(authorBean);
-        return  ResponseEntityBuilder.success()
-                .message("新增成功")
-                .build();
-    }
+//    @PostMapping(path = "/author")
+//    public ResponseEntity<String> createauthor(@Valid @RequestBody AuthorBean authorBean,
+//                                               BindingResult bindingResult) {
+//        BindingResultUtils.validate(bindingResult);
+//        authorService.save(authorBean);
+//        return  ResponseEntityBuilder.success()
+//                .message("新增成功")
+//                .build();
+//    }
 
     @PostMapping(path = "/record")
     public ResponseEntity<String> createrecord(@Valid @RequestBody RecordBean recordBean,
