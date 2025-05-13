@@ -38,30 +38,32 @@ public class LibraryController {
     private final UploadFileService uploadFileService;
 
     @PostMapping(path = "/book")
-    public ResponseEntity<String> createLibrary(@Valid BookBean bookBean,
+    public ResponseEntity<String> createLibraryBook(@Valid BookBean bookBean,
                                                 BindingResult bindingResult,
                                                 MultipartFile[] files) {
-        for(MultipartFile file : files) {
-            UploadFileBean uploadFileBean = new UploadFileBean();
-            uploadFileBean.setTable_id(1);
-            uploadFileBean.setTable_name(bookBean.getName());
-            uploadFileBean.setFile(file);
-            uploadFileService.save(uploadFileBean);
-        }
+
 
         BindingResultUtils.validate(bindingResult);
         String dateStr = bookBean.getPublicationDateStr(); // 取得日期字串
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 設定格式
         bookBean.setPublicationDate(LocalDate.parse(dateStr, formatter)); // 設定 LocalDate
 
-        bookService.save(bookBean);
+        BookBean book = bookService.save(bookBean);
+        System.out.println(book);
+        for(MultipartFile file : files) {
+            UploadFileBean uploadFileBean = new UploadFileBean();
+            uploadFileBean.setTableid(book.getSno());
+            uploadFileBean.setTable_name(file.getOriginalFilename());
+            uploadFileBean.setFile(file);
+            uploadFileService.save(uploadFileBean);
+        }
         return ResponseEntityBuilder.success()
                 .message("新增成功")
                 .build();
     }
 
     @PostMapping(path = "/author")
-    public ResponseEntity<String> createLibrary(@Valid @RequestBody AuthorBean authorBean,
+    public ResponseEntity<String> createLibraryAuthor(@Valid @RequestBody AuthorBean authorBean,
                                                 BindingResult bindingResult) {
         BindingResultUtils.validate(bindingResult);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -138,7 +140,15 @@ public class LibraryController {
             objectData.add("publicationDate", formatter.format(bookBean.getPublicationDate()));
             objectData.add("authorName", bookBean.getAuthor().getName());
             objectData.add("authorId", bookBean.getAuthor_id());
+            ArrayData arrayData2 = new ArrayData();
+            for (UploadFileBean uploadFileBean : uploadFileService.findAllByTableid(id)) {
+                ObjectData objectData1 = arrayData2.addObject();
+                objectData1.add("fileName", uploadFileBean.getTable_name());
+                objectData1.add("filePath", uploadFileBean.getPath());
+            }
+            objectData.add("uploadFileBeanList",arrayData2);
         }
+
         return ResponseEntityBuilder.error()
                 .message("查詢成功")
                 .data(arrayData)
@@ -147,8 +157,21 @@ public class LibraryController {
 
     @PatchMapping(path = "/book/{sno}")
     public ResponseEntity<String> updateTeacher(@PathVariable Integer sno,
-                                                @RequestBody BookBean bookBean){
+                                                @Valid BookBean bookBean,
+                                                BindingResult bindingResult,
+                                                MultipartFile[] files){
+        BindingResultUtils.validate(bindingResult);
+        String dateStr = bookBean.getPublicationDateStr(); // 取得日期字串
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 設定格式
+        bookBean.setPublicationDate(LocalDate.parse(dateStr, formatter)); // 設定 LocalDate
         bookService.update(sno, bookBean);
+        for(MultipartFile file : files) {
+            UploadFileBean uploadFileBean = new UploadFileBean();
+            uploadFileBean.setTableid(sno);
+            uploadFileBean.setTable_name(file.getOriginalFilename());
+            uploadFileBean.setFile(file);
+            uploadFileService.save(uploadFileBean);
+        }
         return ResponseEntityBuilder.success()
                 .message("更新成功")
                 .build();

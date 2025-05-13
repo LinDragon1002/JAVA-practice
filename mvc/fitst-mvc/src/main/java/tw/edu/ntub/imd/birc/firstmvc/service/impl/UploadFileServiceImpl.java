@@ -34,7 +34,7 @@ public class UploadFileServiceImpl extends BaseServiceImpl<UploadFileBean, Uploa
     @Override
     public UploadFileBean save(UploadFileBean uploadFileBean) {
 
-        UploadResult uploadResult = multipartFileUploader.upload(uploadFileBean.getFile(),"protected", uploadFileBean.getTable_name(), uploadFileBean.getTable_id().toString());
+        UploadResult uploadResult = multipartFileUploader.upload(uploadFileBean.getFile(),"protected", uploadFileBean.getTable_name(), uploadFileBean.getTableid().toString());
 //
         uploadFileBean.setPath(uploadResult.getUrl());
 
@@ -42,8 +42,8 @@ public class UploadFileServiceImpl extends BaseServiceImpl<UploadFileBean, Uploa
         return transformer.transferToBean(uploadFile);
     }
 
-//    @Override
-//    public List<UploadFileBean> findAllById(Integer id) {
-//        return CollectionUtils.map(uploadFileDAO.findAllById(id), transformer::transferToBean);
-//    }
+    @Override
+    public List<UploadFileBean> findAllByTableid(Integer id) {
+        return CollectionUtils.map(uploadFileDAO.findAllByTableid(id), transformer::transferToBean);
+    }
 }

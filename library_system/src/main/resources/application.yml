@@ -1,4 +1,4 @@
-debug: true
+deb  ug: true
 spring:
   main:
     banner-mode: off

@@ -23,8 +23,8 @@ public class UploadFile {
     @Column(name = "path",length = 500, nullable = false)
     private String path;
 
-    @Column(name = "table_id", length = 45 , nullable = false)
-    private Integer table_id;
+    @Column(name = "tableid", length = 45 , nullable = false)
+    private Integer tableid;
 
     @Column(name = "table_name", length = 45 , nullable = false)
     private String table_name;

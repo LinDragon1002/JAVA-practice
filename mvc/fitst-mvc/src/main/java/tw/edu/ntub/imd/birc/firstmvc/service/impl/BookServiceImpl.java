@@ -26,8 +26,8 @@ public class BookServiceImpl extends BaseServiceImpl<BookBean, Book, Integer> im
 
     @Override
     public BookBean save(BookBean bookBean) {
-        bookDAO.save(transformer.transferToEntity(bookBean));
-        return null;
+        Book book = bookDAO.save(transformer.transferToEntity(bookBean));
+        return transformer.transferToBean(book);
     }
 
     @Override

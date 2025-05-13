@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface UploadFileDAO extends BaseDAO<UploadFile, Integer> {
-//    List<UploadFile> findAllById(Integer id);
+    List<UploadFile> findAllByTableid(Integer id);
 //    @Query("SELECT a.name FROM UploadFile a WHERE a.id = :id")
 //    List<UploadFile> findAllById(@Param("id") Integer id);
 }

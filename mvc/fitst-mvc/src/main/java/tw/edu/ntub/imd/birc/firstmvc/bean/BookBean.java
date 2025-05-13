@@ -12,7 +12,6 @@ import java.util.Date;
 
 @Data
 public class BookBean {
-    @Null
     private Integer sno;
 
     @NotBlank(message = "姓名 - 未填寫")

@@ -19,7 +19,7 @@ public class UploadFileBean {
     private String path;
 
     @Null
-    private Integer table_id;
+    private Integer tableid;
 
     @Null
     private String table_name;
