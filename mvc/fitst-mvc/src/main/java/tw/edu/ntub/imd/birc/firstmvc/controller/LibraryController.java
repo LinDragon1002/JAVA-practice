@@ -49,7 +49,7 @@ public class LibraryController {
         bookBean.setPublicationDate(LocalDate.parse(dateStr, formatter)); // 設定 LocalDate
 
         BookBean book = bookService.save(bookBean);
-        System.out.println(book);
+
         for(MultipartFile file : files) {
             UploadFileBean uploadFileBean = new UploadFileBean();
             uploadFileBean.setTableid(book.getSno());
