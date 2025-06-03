@@ -1,11 +1,14 @@
 package tw.edu.ntub.imd.birc.firstmvc.service.impl;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import tw.edu.ntub.birc.common.util.CollectionUtils;
 import tw.edu.ntub.imd.birc.firstmvc.bean.MemberBean;
 import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.dao.MemberDAO;
 import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.dao.specification.MemberSpecification;
 import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.entity.Member;
+import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.entity.Member_;
 import tw.edu.ntub.imd.birc.firstmvc.service.MemberService;
 import tw.edu.ntub.imd.birc.firstmvc.service.transformer.MemberTransformer;
 
@@ -19,6 +22,7 @@ public class MemberServiceImpl extends BaseServiceImpl<MemberBean, Member, Integ
     private final MemberDAO memberDAO;
     private final MemberTransformer transformer;
     private final MemberSpecification memberSpecification;
+    private final Integer SIZE = 10;
 
     public MemberServiceImpl(MemberDAO memberDAO, MemberTransformer transformer, MemberSpecification memberSpecification) {
         super(memberDAO, transformer);
@@ -34,11 +38,18 @@ public class MemberServiceImpl extends BaseServiceImpl<MemberBean, Member, Integ
         return transformer.transferToBean(member);
     }
 
+    @Override
+    public int countAll(String keyWord) {
+        PageRequest pageRequest = PageRequest.of(0, SIZE);
+        return memberDAO.findAll(memberSpecification.checkBlank(keyWord), pageRequest).getTotalPages();
+    }
+
     // 因為原本是全查，但是要增加條件是否啟用，所以才覆寫，不然用父類別的就可以了
     @Override
-    public List<MemberBean> searchAll(String keyWord) {
+    public List<MemberBean> findAllByPage(Integer nowPage,String keyWord) {
+        PageRequest pageRequest = PageRequest.of(nowPage, SIZE);
         List<MemberBean> memberBeanList =  new ArrayList<>();
-        for (Member member : memberDAO.findAll(memberSpecification.checkBlank(keyWord))) {
+        for (Member member : memberDAO.findAll(memberSpecification.checkBlank(keyWord), pageRequest)) {
             MemberBean memberBean = new MemberBean();
             memberBean.setId(member.getId());
             memberBean.setName(member.getName());
