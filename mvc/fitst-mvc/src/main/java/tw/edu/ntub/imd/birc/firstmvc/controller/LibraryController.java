@@ -27,6 +27,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -49,7 +51,7 @@ public class LibraryController {
         bookBean.setPublicationDate(LocalDate.parse(dateStr, formatter)); // 設定 LocalDate
 
         BookBean book = bookService.save(bookBean);
-
+        System.out.println(book);
         for(MultipartFile file : files) {
             UploadFileBean uploadFileBean = new UploadFileBean();
             uploadFileBean.setTableid(book.getSno());
@@ -155,8 +157,8 @@ public class LibraryController {
                 .build();
     }
 
-    @PatchMapping(path = "/book/{sno}")
-    public ResponseEntity<String> updateTeacher(@PathVariable Integer sno,
+    @PatchMapping(path = "/book/{id}")
+    public ResponseEntity<String> updateTeacher(@PathVariable Integer id,
                                                 @Valid BookBean bookBean,
                                                 BindingResult bindingResult,
                                                 MultipartFile[] files){
@@ -164,14 +166,25 @@ public class LibraryController {
         String dateStr = bookBean.getPublicationDateStr(); // 取得日期字串
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 設定格式
         bookBean.setPublicationDate(LocalDate.parse(dateStr, formatter)); // 設定 LocalDate
-        bookService.update(sno, bookBean);
-        for(MultipartFile file : files) {
-            UploadFileBean uploadFileBean = new UploadFileBean();
-            uploadFileBean.setTableid(sno);
-            uploadFileBean.setTable_name(file.getOriginalFilename());
-            uploadFileBean.setFile(file);
-            uploadFileService.save(uploadFileBean);
+        bookService.update(id, bookBean);
+        List<Integer> numbers = new ArrayList<>();
+        for (UploadFileBean uploadFileBean : uploadFileService.findAllByTableid(id)) {
+            numbers.add(uploadFileBean.getId());
         }
+        if (files != null && files.length > 0) {
+            for(MultipartFile file : files) {
+                UploadFileBean uploadFileBean = new UploadFileBean();
+                uploadFileBean.setTableid(id);
+                uploadFileBean.setTable_name(file.getOriginalFilename());
+                uploadFileBean.setFile(file);
+                uploadFileService.save(uploadFileBean);
+            }
+            for (Integer number : numbers) {
+                uploadFileService.delete(number);
+            }
+        }
+
+
         return ResponseEntityBuilder.success()
                 .message("更新成功")
                 .build();
