@@ -97,13 +97,17 @@ public class MemberController {
     }
 
 //  更新資料
-    @PatchMapping(path = "/update")
-    public ResponseEntity<String> updateMember(@RequestBody MemberBean memberBean) {
-        memberService.update(memberBean.getId(),memberBean);
+    @PatchMapping(path = "/update/{id}")
+    public ResponseEntity<String> updateMember(@PathVariable Integer id,
+                                               @RequestBody MemberBean memberBean) {
+        memberService.update(id,memberBean);
         return ResponseEntityBuilder.success()
                 .message("更新成功")
                 .build();
     }
+
+    //停用/啟用
+    // /toggle
 
 //  刪除資料
     @DeleteMapping(path = "/delete/{id}")

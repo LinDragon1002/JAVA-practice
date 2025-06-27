@@ -3,10 +3,8 @@ package tw.edu.ntub.imd.birc.firstmvc.databaseconfig.entity;
 
 import lombok.Data;
 import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.Config;
-import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.entity.listener.MemberListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Data
 @Entity

@@ -1,14 +1,11 @@
 package tw.edu.ntub.imd.birc.firstmvc.service.impl;
 
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import tw.edu.ntub.birc.common.util.CollectionUtils;
 import tw.edu.ntub.imd.birc.firstmvc.bean.MemberBean;
 import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.dao.MemberDAO;
 import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.dao.specification.MemberSpecification;
 import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.entity.Member;
-import tw.edu.ntub.imd.birc.firstmvc.databaseconfig.entity.Member_;
 import tw.edu.ntub.imd.birc.firstmvc.service.MemberService;
 import tw.edu.ntub.imd.birc.firstmvc.service.transformer.MemberTransformer;
 
