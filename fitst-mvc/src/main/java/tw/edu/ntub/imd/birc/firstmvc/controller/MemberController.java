@@ -67,7 +67,7 @@ public class MemberController {
     }
 
 //  條件查詢找資料
-    @GetMapping(path = "/list", params = {"keyWord"})
+    @GetMapping(path = "/list")
     public ResponseEntity<String> searchAllBySpec(@RequestParam(value = "keyWord", required = false) String keyWord,
                                                   @RequestParam(value = "nowPage", defaultValue = "0") Integer nowPage){
         ArrayData arrayData = new ArrayData();
