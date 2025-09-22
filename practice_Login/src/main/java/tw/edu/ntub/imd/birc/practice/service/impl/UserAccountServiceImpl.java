@@ -1,5 +1,6 @@
 package tw.edu.ntub.imd.birc.practice.service.impl;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import tw.edu.ntub.imd.birc.practice.databaseconfig.entity.UserAccount;
 import tw.edu.ntub.imd.birc.practice.service.UserAccountService;
 import tw.edu.ntub.imd.birc.practice.service.transformer.UserAccountTransformer;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -44,15 +46,44 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountBean, Use
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<UserAccount> userAccounts = userAccountDAO.findByAccount(username);
-        if (CollectionUtils.isEmpty(userAccounts)) {
-            throw new UsernameNotFoundException(username);
-        }
-        UserAccount userAccount = userAccounts.get(0);
-        return User.builder()
-                .username(username)
-                .password(PasswordUtils.encode(userAccount.getPassword()))
-                .authorities(Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")))
-                .build();
+        String password = userAccounts.get(0).getPassword();
+
+        return new UserDetails() {
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return List.of();
+            }
+
+            @Override
+            public String getPassword() {
+                return password;
+            }
+
+            @Override
+            public String getUsername() {
+                return userAccounts.toString();
+            }
+
+            @Override
+            public boolean isAccountNonExpired() {
+                return true;
+            }
+
+            @Override
+            public boolean isAccountNonLocked() {
+                return true;
+            }
+
+            @Override
+            public boolean isCredentialsNonExpired() {
+                return true;
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return true;
+            }
+        };
     }
 
     @Override

@@ -43,7 +43,7 @@ public class UserAccountController {
     // 查詢用戶（需要登入）
     @PreAuthorize("isAuthenticated()")
     @GetMapping(path = "")
-    public ResponseEntity<String> getLoginUser(@RequestParam String account) {
+    public ResponseEntity<String> getLoginUser(@PathVariable (name = "account") String account) {
         List<UserAccountBean> users = userAccountService.findByAccount(account);
 
         ArrayData arrayData = new ArrayData();

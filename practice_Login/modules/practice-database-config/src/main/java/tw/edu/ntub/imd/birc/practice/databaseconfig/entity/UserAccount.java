@@ -15,7 +15,7 @@ public class UserAccount {
     private Integer sno;
 
     @Column(name = "name",length = 45, nullable = false)
-    private String name;
+    private String username;
 
     @Column(name = "email", length = 254, nullable = false)
     private String email;

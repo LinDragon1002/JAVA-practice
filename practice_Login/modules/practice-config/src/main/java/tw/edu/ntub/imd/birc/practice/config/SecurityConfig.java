@@ -36,7 +36,7 @@ import java.util.Collections;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final String imageUrlName;
     private final String fileUrlName;
-//    private final UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -44,19 +44,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SecurityConfig(
             FileProperties fileProperties,
             ImageProperties imageProperties,
-//            UserDetailsService userDetailsService,
+            UserDetailsService userDetailsService,
             CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler,
             JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.fileUrlName = fileProperties.getName();
         this.imageUrlName = imageProperties.getName();
-//        this.userDetailsService = userDetailsService;
+        this.userDetailsService = userDetailsService;
         this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(new CustomAuthenticationProvider(userDetailsService));
+        auth.authenticationProvider(new CustomAuthenticationProvider(userDetailsService));
     }
 
     @Bean
