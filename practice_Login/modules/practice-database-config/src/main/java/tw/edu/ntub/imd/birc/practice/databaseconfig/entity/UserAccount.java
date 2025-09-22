@@ -4,6 +4,7 @@ import lombok.Data;
 import tw.edu.ntub.imd.birc.practice.databaseconfig.Config;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -25,4 +26,15 @@ public class UserAccount {
 
     @Column(name = "password", length = 254, nullable = false)
     private String password;
+
+    @Column(name = "available" , nullable = false)
+    private Boolean available;
+
+    @Column(name = "createdate", nullable = false)
+    private LocalDateTime createDate;
+
+    @Column(name = "modifydate", nullable = false)
+    private LocalDateTime modifyDate;
+
+
 }

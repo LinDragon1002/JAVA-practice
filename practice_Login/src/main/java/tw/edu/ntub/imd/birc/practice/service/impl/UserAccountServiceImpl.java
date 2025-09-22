@@ -30,7 +30,6 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountBean, Use
         this.transformer = transformer;
     }
 
-
     @Override
     public UserAccountBean save(UserAccountBean userAccountBean) {
         userAccountDAO.save(transformer.transferToEntity(userAccountBean));
@@ -46,7 +45,7 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountBean, Use
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<UserAccount> userAccounts = userAccountDAO.findByAccount(username);
-        String password = userAccounts.get(0).getPassword();
+        String encodepassword = userAccounts.get(0).getPassword();
 
         return new UserDetails() {
             @Override
@@ -56,7 +55,7 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountBean, Use
 
             @Override
             public String getPassword() {
-                return password;
+                return encodepassword;
             }
 
             @Override
@@ -81,7 +80,7 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountBean, Use
 
             @Override
             public boolean isEnabled() {
-                return true;
+                return userAccounts.get(0).getAvailable();
             }
         };
     }

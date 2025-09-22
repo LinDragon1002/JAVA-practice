@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Data
 public class UserAccountBean {
@@ -26,4 +27,8 @@ public class UserAccountBean {
     @Size(max = 254, message = "password - 不可超過{max}個字")
     @NotEmpty(message = "password - 未填寫")
     private String password;
+
+    private Boolean available;
+    private LocalDateTime createDate;
+    private LocalDateTime modifyDate;
 }
