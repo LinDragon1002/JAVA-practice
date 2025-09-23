@@ -1,8 +1,6 @@
 package tw.edu.ntub.imd.birc.practice.service.impl;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,10 +12,9 @@ import tw.edu.ntub.imd.birc.practice.databaseconfig.entity.UserAccount;
 import tw.edu.ntub.imd.birc.practice.service.UserAccountService;
 import tw.edu.ntub.imd.birc.practice.service.transformer.UserAccountTransformer;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountBean, UserAccount, Integer> implements UserAccountService {
@@ -38,7 +35,20 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountBean, Use
 
     @Override
     public UserAccountBean registerUserAccount(UserAccountBean userAccountBean) {
+        List<String> errorMessages = new ArrayList<>();
+
+        // 檢查電子郵件是否重複
+        if (userAccountBean.getEmail() != null && userAccountDAO.existsByEmail(userAccountBean.getEmail())) {
+            errorMessages.add("電子郵件已被使用，請使用其他信箱");
+        }
+
+        // 如果有任何錯誤，拋出例外
+        if (!errorMessages.isEmpty()) {
+            String combinedMessage = String.join("；", errorMessages);
+            throw new RuntimeException(combinedMessage);
+        }
         userAccountBean.setPassword(PasswordUtils.encode(userAccountBean.getPassword()));
+        userAccountBean.setAvailable(true);
         return save(userAccountBean);
     }
 

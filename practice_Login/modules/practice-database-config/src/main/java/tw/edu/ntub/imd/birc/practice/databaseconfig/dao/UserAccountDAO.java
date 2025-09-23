@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface UserAccountDAO extends BaseDAO<UserAccount, Integer>{
     List<UserAccount> findByAccount(String account);
+    Boolean existsByEmail(String email);
 }

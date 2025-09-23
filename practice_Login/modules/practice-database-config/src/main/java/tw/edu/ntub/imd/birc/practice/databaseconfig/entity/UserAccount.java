@@ -2,12 +2,15 @@ package tw.edu.ntub.imd.birc.practice.databaseconfig.entity;
 
 import lombok.Data;
 import tw.edu.ntub.imd.birc.practice.databaseconfig.Config;
+import tw.edu.ntub.imd.birc.practice.databaseconfig.entity.converter.BooleanTo1And0Converter;
+import tw.edu.ntub.imd.birc.practice.databaseconfig.entity.listener.UserAccountListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
+@EntityListeners(UserAccountListener.class)
 @Table(name = "useraccount", schema = Config.DATABASE_NAME)
 public class UserAccount {
     @Id
@@ -27,6 +30,7 @@ public class UserAccount {
     @Column(name = "password", length = 254, nullable = false)
     private String password;
 
+    @Convert(converter = BooleanTo1And0Converter.class)
     @Column(name = "available" , nullable = false)
     private Boolean available;
 

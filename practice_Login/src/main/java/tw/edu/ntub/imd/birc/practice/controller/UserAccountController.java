@@ -51,7 +51,6 @@ public class UserAccountController {
             ObjectData objectData = arrayData.addObject();
             objectData.add("id", user.getSno());
             objectData.add("account", user.getAccount());
-            // 不要回傳密碼
             objectData.add("email", user.getEmail());
         }
 
