@@ -9,8 +9,10 @@ import tw.edu.ntub.imd.birc.practice.bean.UserAccountBean;
 import tw.edu.ntub.imd.birc.practice.config.util.PasswordUtils;
 import tw.edu.ntub.imd.birc.practice.databaseconfig.dao.UserAccountDAO;
 import tw.edu.ntub.imd.birc.practice.databaseconfig.entity.UserAccount;
+import tw.edu.ntub.imd.birc.practice.exception.BircException;
 import tw.edu.ntub.imd.birc.practice.service.UserAccountService;
 import tw.edu.ntub.imd.birc.practice.service.transformer.UserAccountTransformer;
+import java.security.Principal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +47,12 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountBean, Use
         // 如果有任何錯誤，拋出例外
         if (!errorMessages.isEmpty()) {
             String combinedMessage = String.join("；", errorMessages);
-            throw new RuntimeException(combinedMessage);
+            throw new BircException(combinedMessage) {
+                @Override
+                public String getErrorCode() {
+                    return combinedMessage;
+                }
+            };
         }
         userAccountBean.setPassword(PasswordUtils.encode(userAccountBean.getPassword()));
         userAccountBean.setAvailable(true);
@@ -93,6 +100,15 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountBean, Use
                 return userAccounts.get(0).getAvailable();
             }
         };
+    }
+
+    @Override
+    public UserAccountBean updatePassword(UserAccountBean userAccountBean,
+                                          String currentPassword,
+                                          String newPassword,
+                                          Principal principal) {
+
+        return null;
     }
 
     @Override

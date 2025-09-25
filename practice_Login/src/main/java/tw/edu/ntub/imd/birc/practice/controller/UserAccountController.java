@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import tw.edu.ntub.imd.birc.practice.bean.UserAccountBean;
 import tw.edu.ntub.imd.birc.practice.config.util.SecurityUtils;
+import tw.edu.ntub.imd.birc.practice.exception.BircException;
 import tw.edu.ntub.imd.birc.practice.service.UserAccountService;
 import tw.edu.ntub.imd.birc.practice.util.http.BindingResultUtils;
 import tw.edu.ntub.imd.birc.practice.util.http.ResponseEntityBuilder;
@@ -33,7 +34,7 @@ public class UserAccountController {
             return ResponseEntityBuilder.success()
                     .message("註冊成功")
                     .build();
-        } catch (RuntimeException e) {
+        } catch (BircException e) {
             return ResponseEntityBuilder.error()
                     .message(e.getMessage())
                     .build();
