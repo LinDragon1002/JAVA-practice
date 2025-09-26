@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // 給學生的起始框架
 class LightController {
@@ -7,29 +9,38 @@ class LightController {
     // 需求：根據brand參數控制不同品牌的燈
     // brand可能的值："philips", "xiaomi", "ikea"
     // action可能的值："on", "off"
-    String[] brands = {"philips", "xiaomi", "ikea"};
-    String[] actions = {"on", "off"};
-    List<String> allLightStatus = new ArrayList<>();
+    List<String> brands = List.of("philips", "xiaomi", "ikea");
+    List<List<String>> allLight = new ArrayList<>();
+    List<String> temps = new ArrayList<>();
 
     public void controlLight(String brand, String action) {
-        // 你的實作在這裡...
-        // 提示：最直接的方式就是if-else判斷
-        for (String brandLight : brands) {
-            if (brandLight.equals(brand)) {
-                if (action.equals(actions[0])) {
-                    allLightStatus.add(brand + " " + action);
-                } else if (action.equals(actions[1])) {
-                    allLightStatus.add(brand + " " + action);
-                }
+        try {
+            temps.add(brand);
+            // 直接檢查品牌是否存在
+            if (!brands.contains(brand)) {
+                throw new IllegalArgumentException();
             }
+
+            if (action.equals("on")) {
+                temps.add("開燈");
+            } else if (action.equals("off")) {
+                temps.add("關燈");
+            }
+            allLight.add(new ArrayList<>(temps));
+            temps.clear();
+
+        } catch (Exception e) {
+            temps.add("不支援此產品");
+            allLight.add(new ArrayList<>(temps));
+            temps.clear();
         }
 
     }
 
     public void showAllLightStatus() {
         // 提示：顯示所有燈具的狀態總覽
-        for (String lightStatus : allLightStatus) {
-            System.out.println(lightStatus);
+        for (List<String> light : allLight) {
+            System.out.println(light.get(0) + ":" + light.get(1));
         }
     }
 }

@@ -1,35 +1,63 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // 給學生的起始框架
 class LightController2 {
-    String brands = "philips,xiaomi,ikea";
-    String msg = "智慧燈泡優雅點亮,燈泡瞬間點亮,燈具溫馨啟動,智慧燈泡柔和熄滅,燈泡立即關閉,燈具安靜關閉";
-    Map<String,Boolean> allLightStatus = new HashMap<>();
+    List<String> brands = List.of("philips", "xiaomi", "ikea");
+    List<String> msg =  List.of("智慧燈泡優雅點亮","燈泡瞬間點亮","燈具溫馨啟動","智慧燈泡柔和熄滅","燈泡立即關閉","燈具安靜關閉");
+    List<List<String>> allLight = new ArrayList<>();
+    List<String> temps = new ArrayList<>();
 
     public void controlLight(String brand, String action) {
-        for (String brandLight : brands.split(",")) {
-            if (brandLight.equals(brand)) {
-                if (action.equals("on")) {
-                    allLightStatus.put(brand,true);
-                } else if (action.equals("off")) {
-                    allLightStatus.put(brand,false);
+        try {
+            temps.add(brand);
+            // 直接檢查品牌是否存在
+            if (!brands.contains(brand)) {
+                throw new IllegalArgumentException();
+            }
+            
+            int exitingBrand = 0;
+            for (List<String> light : allLight) {
+                if (light.get(0).equals(brand)) {
+                    if (action.equals("on")) {
+                        light.set(1, "開燈");
+                        light.set(2, msg.get(brands.indexOf(brand)));
+                    } else if (action.equals("off")) {
+                        light.set(1, "關燈");
+                        light.set(2, msg.get(brands.indexOf(brand) + brands.size()));
+                    }
+                    exitingBrand = 1;
+                    break;
                 }
             }
+            if (exitingBrand == 0) {
+                if (action.equals("on")) {
+                    temps.add("開燈");
+                    temps.add(msg.get(brands.indexOf(brand)));
+                } else if (action.equals("off")) {
+                    temps.add("關燈");
+                    temps.add(msg.get(brands.indexOf(brand)+brands.size()));
+                }
+                allLight.add(new ArrayList<>(temps));
+            }
+
+            temps.clear();
+
+        } catch (Exception e) {
+            temps.add("不支援此產品");
+            allLight.add(new ArrayList<>(temps));
+            temps.clear();
         }
     }
 
     public void showAllLightStatus() {
         // 提示：顯示所有燈具的狀態總覽
-        for (Map.Entry<String, Boolean> entry : allLightStatus.entrySet()) {
-            String status = entry.getValue() ? "開燈" : "關燈";
-//            String message = msg.indexOf(brands.indexOf(entry.getKey()));
-//            msg.indexOf()
-            System.out.println(entry.getKey() + status + "輸出:" + entry.getKey() + "");
+        for (List<String> light : allLight) {
+            String brand = light.get(0);
+            String action = light.get(1);
+            String message = light.size() >= 2 ? light.get(2) : "";
+
+            System.out.println("當" + brand + action + "輸出:" + brand + message);
         }
-        allLightStatus.clear();
     }
 }
 
