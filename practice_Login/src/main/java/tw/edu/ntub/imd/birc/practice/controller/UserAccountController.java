@@ -41,6 +41,29 @@ public class UserAccountController {
         }
     }
 
+    @PostMapping(path = "/update")
+    public ResponseEntity<String> updatePassword(@RequestParam String username,
+                                                 @RequestParam String currentPassword,
+                                                 @RequestParam String newPassword,
+                                                 @RequestParam String confirmNewPassword) {
+        try {
+            if (!newPassword.equals(confirmNewPassword)) {
+                return ResponseEntityBuilder.error()
+                        .message("與舊密碼一樣")
+                        .build();
+            }
+
+            userAccountService.updatePassword(username,currentPassword, newPassword);
+        } catch (Exception e) {
+            return ResponseEntityBuilder.error()
+                    .message(e.getMessage())
+                    .build();
+        }
+        return ResponseEntityBuilder.success()
+                .message("更改成功")
+                .build();
+    }
+
     // 查詢用戶（需要登入）
     @PreAuthorize("isAuthenticated()")
     @GetMapping(path = "")

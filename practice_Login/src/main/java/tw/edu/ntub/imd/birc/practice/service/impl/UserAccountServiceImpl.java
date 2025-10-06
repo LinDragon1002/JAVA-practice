@@ -103,11 +103,15 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountBean, Use
     }
 
     @Override
-    public UserAccountBean updatePassword(UserAccountBean userAccountBean,
+    public UserAccountBean updatePassword(String username,
                                           String currentPassword,
-                                          String newPassword,
-                                          Principal principal) {
-
+                                          String newPassword) throws Exception {
+        List<UserAccount> userAccounts = userAccountDAO.findByAccount(username);
+        String encodepassword = userAccounts.get(0).getPassword();
+        if (!PasswordUtils.matches(currentPassword, encodepassword)) {
+            throw new Exception("Current password is incorrect");
+        }
+        userAccounts.get(0).setPassword(PasswordUtils.encode(newPassword));
         return null;
     }
 

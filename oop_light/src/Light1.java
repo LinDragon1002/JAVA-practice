@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // 給學生的起始框架
 class LightController {
@@ -15,26 +12,17 @@ class LightController {
 
     public void controlLight(String brand, String action) {
         try {
-            temps.add(brand);
             // 直接檢查品牌是否存在
             if (!brands.contains(brand)) {
                 throw new IllegalArgumentException();
             }
-
-            if (action.equals("on")) {
-                temps.add("開燈");
-            } else if (action.equals("off")) {
-                temps.add("關燈");
-            }
-            allLight.add(new ArrayList<>(temps));
+            String status = action.equals("on") ? "開燈" : "關燈";
+            allLight.add(new ArrayList<>(Arrays.asList(brand, status)));
             temps.clear();
-
         } catch (Exception e) {
-            temps.add("不支援此產品");
-            allLight.add(new ArrayList<>(temps));
+            allLight.add(new ArrayList<>(Arrays.asList(brand, "不支援此產品")));
             temps.clear();
         }
-
     }
 
     public void showAllLightStatus() {

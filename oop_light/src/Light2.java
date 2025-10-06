@@ -8,43 +8,70 @@ class LightController2 {
     List<String> temps = new ArrayList<>();
 
     public void controlLight(String brand, String action) {
+//        try {
+//            temps.add(brand);
+//            // 直接檢查品牌是否存在
+//            if (!brands.contains(brand)) {
+//                throw new IllegalArgumentException();
+//            }
+//
+//            int exitingBrand = 0;
+//            for (List<String> light : allLight) {
+//                if (light.get(0).equals(brand)) {
+//                    if (action.equals("on")) {
+//                        light.set(1, "開燈");
+//                        light.set(2, msg.get(brands.indexOf(brand)));
+//                    } else if (action.equals("off")) {
+//                        light.set(1, "關燈");
+//                        light.set(2, msg.get(brands.indexOf(brand) + brands.size()));
+//                    }
+//                    exitingBrand = 1;
+//                    break;
+//                }
+//            }
+//            if (exitingBrand == 0) {
+//                if (action.equals("on")) {
+//                    temps.add("開燈");
+//                    temps.add(msg.get(brands.indexOf(brand)));
+//                } else if (action.equals("off")) {
+//                    temps.add("關燈");
+//                    temps.add(msg.get(brands.indexOf(brand)+brands.size()));
+//                }
+//                allLight.add(new ArrayList<>(temps));
+//            }
+//
+//            temps.clear();
+//
+//        } catch (Exception e) {
+//            temps.add("不支援此產品");
+//            allLight.add(new ArrayList<>(temps));
+//            temps.clear();
+//        }
         try {
-            temps.add(brand);
-            // 直接檢查品牌是否存在
             if (!brands.contains(brand)) {
                 throw new IllegalArgumentException();
             }
-            
-            int exitingBrand = 0;
-            for (List<String> light : allLight) {
-                if (light.get(0).equals(brand)) {
-                    if (action.equals("on")) {
-                        light.set(1, "開燈");
-                        light.set(2, msg.get(brands.indexOf(brand)));
-                    } else if (action.equals("off")) {
-                        light.set(1, "關燈");
-                        light.set(2, msg.get(brands.indexOf(brand) + brands.size()));
-                    }
-                    exitingBrand = 1;
-                    break;
-                }
-            }
-            if (exitingBrand == 0) {
-                if (action.equals("on")) {
-                    temps.add("開燈");
-                    temps.add(msg.get(brands.indexOf(brand)));
-                } else if (action.equals("off")) {
-                    temps.add("關燈");
-                    temps.add(msg.get(brands.indexOf(brand)+brands.size()));
-                }
-                allLight.add(new ArrayList<>(temps));
-            }
 
-            temps.clear();
+            int brandIndex = brands.indexOf(brand);
+            String status = action.equals("on") ? "開燈" : "關燈";
+            String message = msg.get(brandIndex + (action.equals("off") ? brands.size() : 0));
 
+            boolean updated = allLight.stream()
+                    .filter(light -> light.get(0).equals(brand))
+                    .findFirst()
+                    .map(light -> {
+                        light.set(1, status);
+                        light.set(2, message);
+                        return true;
+                    })
+                    .orElse(false);
+
+            if (!updated) {
+                allLight.add(new ArrayList<>(Arrays.asList(brand, status, message)));
+                temps.clear();
+            }
         } catch (Exception e) {
-            temps.add("不支援此產品");
-            allLight.add(new ArrayList<>(temps));
+            allLight.add(new ArrayList<>(Arrays.asList(brand, "不支援此產品")));
             temps.clear();
         }
     }

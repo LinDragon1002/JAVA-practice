@@ -15,61 +15,95 @@ class LightController3 {
     List<String> temps = new ArrayList<>();
 
     public void controlLight(String brand, String action) {
-        for (String brandLight : brands) {
-            if (brandLight.equals(brand)) {
-                temps.add(brand);
-                if (action.equals("on")) {
-                    temps.add("開燈");
-                    temps.add(msg.get(brands.indexOf(brand)));
-                } else if (action.equals("off")) {
-                    temps.add("關燈");
-                    temps.add(msg.get(brands.indexOf(brand)+brands.size()));
-                }
-                allLight.add(new ArrayList<>(temps));
-                temps.clear();
-                break;
+        try {
+            if (!brands.contains(brand)) {
+                throw new IllegalArgumentException();
             }
+
+            int brandIndex = brands.indexOf(brand);
+            String status = action.equals("on") ? "開燈" : "關燈";
+            String message = msg.get(brandIndex + (action.equals("off") ? brands.size() : 0));
+
+            boolean updated = allLight.stream()
+                    .filter(light -> light.get(0).equals(brand))
+                    .findFirst()
+                    .map(light -> {
+                        light.set(1, status);
+                        light.set(2, message);
+                        return true;
+                    })
+                    .orElse(false);
+
+            if (!updated) {
+                allLight.add(new ArrayList<>(Arrays.asList(brand, status, message)));
+                temps.clear();
+            }
+        } catch (Exception e) {
+            allLight.add(new ArrayList<>(Arrays.asList("不支援此產品",brand)));
+            temps.clear();
         }
     }
 
     // 還要加這些方法...
     public void setBrightness(String brand, int level) {
-        for (List<String> light : allLight) {
-            if (light.get(0).equals(brand)) {
-                if (level > 0 && level < 101) {
-                    light.add("亮度:"+String.valueOf(level));
-                } else {
-                    light.add("超出範圍");
-                }
-            }
-        }
+        allLight.stream()
+                .filter(light -> light.get(0).equals(brand))
+                .forEach(light -> {
+                    if (level >= 1 && level <= 100) {
+                        int index = -1;
+                        for (int i = 0; i < light.size(); i++) {
+                            if (light.get(i).contains("亮度")) {
+                                index = i;
+                                break;
+                            }
+                        }
 
+                        if (index != -1) {
+                            light.set(index, "亮度:" + level);
+                        } else {
+                            light.add("亮度:" + level);
+                        }
+                    }
+
+                });
     }
 
     public void setColorTemperature(String brand, int temp) {
-        for (List<String> light : allLight) {
-            if (light.get(0).equals(brand)) {
-                if (temp >= 2700 && temp <= 6500) {
-                    light.add("溫度:"+String.valueOf(temp));
-                } else {
-                    light.add("超出範圍");
-                }
-            }
-        }
+        allLight.stream()
+                .filter(light -> light.get(0).equals(brand))
+                .forEach(light -> {
+                    if (temp >= 2700 && temp <= 6500) {
+                        int index = -1;
+                        for (int i = 0; i < light.size(); i++) {
+                            if (light.get(i).contains("溫度")) {
+                                index = i;
+                                break;
+                            }
+                        }
 
-
+                        if (index != -1) {
+                            light.set(index, "溫度:" + temp);
+                        } else {
+                            light.add("溫度:" + temp);
+                        }
+                    }
+                });
     }
 
     public void showAllLightStatus() {
         // 提示：顯示所有燈具的狀態總覽
         for (List<String> light : allLight) {
-            String brand = light.get(0);
-            String action = light.get(1);
-            String message = light.get(2);
-            String brightness = light.size() > 3 ? "，"+light.get(3) : "";
-            String colorTemp = light.size() > 4 ? "，"+light.get(4) : "";
+            if (light.get(0).contains("不支援此產品")) {
+                System.out.println(light.get(1)+light.get(0));
+            } else {
+                String brand = light.get(0);
+                String action = light.get(1);
+                String message = light.size() > 2 ? "，"+light.get(2) : "";
+                String brightness = light.size() > 3 ? "，"+light.get(3) : "";
+                String colorTemp = light.size() > 4 ? "，"+light.get(4) : "";
 
-            System.out.println("當" + brand + action + "輸出:" + brand + message + brightness + colorTemp);
+                System.out.println("當" + brand + action + "輸出:" + brand + message + brightness + colorTemp);
+            }
         }
 
     }
