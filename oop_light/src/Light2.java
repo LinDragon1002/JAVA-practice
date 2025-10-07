@@ -1,13 +1,13 @@
 import java.util.*;
 
 // 給學生的起始框架
-class LightController2 {
-    List<String> brands = List.of("philips", "xiaomi", "ikea");
-    List<String> msg =  List.of("智慧燈泡優雅點亮","燈泡瞬間點亮","燈具溫馨啟動","智慧燈泡柔和熄滅","燈泡立即關閉","燈具安靜關閉");
-    List<List<String>> allLight = new ArrayList<>();
-    List<String> temps = new ArrayList<>();
-
-    public void controlLight(String brand, String action) {
+//class LightController2 {
+//    List<String> brands = List.of("philips", "xiaomi", "ikea");
+//    List<String> msg =  List.of("智慧燈泡優雅點亮","燈泡瞬間點亮","燈具溫馨啟動","智慧燈泡柔和熄滅","燈泡立即關閉","燈具安靜關閉");
+//    List<List<String>> allLight = new ArrayList<>();
+//    List<String> temps = new ArrayList<>();
+//
+//    public void controlLight(String brand, String action) {
 //        try {
 //            temps.add(brand);
 //            // 直接檢查品牌是否存在
@@ -47,74 +47,110 @@ class LightController2 {
 //            allLight.add(new ArrayList<>(temps));
 //            temps.clear();
 //        }
-        try {
-            if (!brands.contains(brand)) {
-                throw new IllegalArgumentException();
-            }
+//        try {
+//            if (!brands.contains(brand)) {
+//                throw new IllegalArgumentException();
+//            }
+//
+//            int brandIndex = brands.indexOf(brand);
+//            String status = action.equals("on") ? "開燈" : "關燈";
+//            String message = msg.get(brandIndex + (action.equals("off") ? brands.size() : 0));
+//
+//            boolean updated = allLight.stream()
+//                    .filter(light -> light.get(0).equals(brand))
+//                    .findFirst()
+//                    .map(light -> {
+//                        light.set(1, status);
+//                        light.set(2, message);
+//                        return true;
+//                    })
+//                    .orElse(false);
+//
+//            if (!updated) {
+//                allLight.add(new ArrayList<>(Arrays.asList(brand, status, message)));
+//                temps.clear();
+//            }
+//        } catch (Exception e) {
+//            allLight.add(new ArrayList<>(Arrays.asList(brand, "不支援此產品")));
+//            temps.clear();
+//        }
+//    }
+//
+//    public void showAllLightStatus() {
+//        // 提示：顯示所有燈具的狀態總覽
+//        for (List<String> light : allLight) {
+//            String brand = light.get(0);
+//            String action = light.get(1);
+//            String message = light.size() >= 2 ? light.get(2) : "";
+//
+//            System.out.println("當" + brand + action + "輸出:" + brand + message);
+//        }
+//    }
+//}
 
-            int brandIndex = brands.indexOf(brand);
-            String status = action.equals("on") ? "開燈" : "關燈";
-            String message = msg.get(brandIndex + (action.equals("off") ? brands.size() : 0));
+class LightController2 {
+    // 需求：根據brand參數控制不同品牌的燈
+    // brand可能的值："philips", "xiaomi", "ikea"
+    // action可能的值："on", "off"
 
-            boolean updated = allLight.stream()
-                    .filter(light -> light.get(0).equals(brand))
-                    .findFirst()
-                    .map(light -> {
-                        light.set(1, status);
-                        light.set(2, message);
-                        return true;
-                    })
-                    .orElse(false);
+    private Map<String, String> lightStatus = new HashMap<>(Map.of(
+            "philips", "off",
+            "xiaomi", "off",
+            "ikea", "off"));
 
-            if (!updated) {
-                allLight.add(new ArrayList<>(Arrays.asList(brand, status, message)));
-                temps.clear();
-            }
-        } catch (Exception e) {
-            allLight.add(new ArrayList<>(Arrays.asList(brand, "不支援此產品")));
-            temps.clear();
+    List<String> msg =  List.of("智慧燈泡優雅點亮","燈泡瞬間點亮","燈具溫馨啟動","智慧燈泡柔和熄滅","燈泡立即關閉","燈具安靜關閉");
+
+    public void controlLight(String brand, String action) {
+        // 你的實作在這裡...
+        // 提示：最直接的方式就是if-else判斷
+        if (lightStatus.containsKey(brand)) {
+            lightStatus.put(brand, action);
+        } else {
+            lightStatus.put(brand, "不支援此產品");
         }
+
     }
 
     public void showAllLightStatus() {
-        // 提示：顯示所有燈具的狀態總覽
-        for (List<String> light : allLight) {
-            String brand = light.get(0);
-            String action = light.get(1);
-            String message = light.size() >= 2 ? light.get(2) : "";
+        // 這裡先簡單示範
+        List<String> brandList = new ArrayList<>(lightStatus.keySet());
 
-            System.out.println("當" + brand + action + "輸出:" + brand + message);
+        for (Map.Entry<String, String> entry : lightStatus.entrySet()) {
+            String brand = entry.getKey();
+            String status = entry.getValue();
+
+            if (status.equals("不支援此產品")) {
+                System.out.println("不支援的品牌:" + brand);
+            } else {
+                int brandIndex = brandList.indexOf(brand);
+                int msgIndex = brandIndex + (status.equals("on") ? 0 : 3);
+                System.out.println(brand + msg.get(msgIndex));
+            }
         }
+        System.out.println("=== 所有燈具狀態總覽 ===");
+        for (Map.Entry<String, String> entry : lightStatus.entrySet()) {
+            if (!entry.getValue().equals("不支援此產品")) {
+                System.out.println(entry.getKey() + ": " + entry.getValue().toUpperCase());
+            }
+
+        }
+
     }
 }
-
-
 
 
 public class Light2 {
     public static void main(String[] args) {
         LightController2 controller = new LightController2();
 
-        // 第一波測試：基本開關功能
-        System.out.println("📋 測試案例 1: 基本開關功能");
         controller.controlLight("philips", "on");
         controller.controlLight("xiaomi", "on");
         controller.controlLight("ikea", "on");
         controller.showAllLightStatus();
 
-        // 第二波測試：關燈功能
-        System.out.println("\n📋 測試案例 2: 關燈功能");
         controller.controlLight("xiaomi", "off");
-        controller.showAllLightStatus();
-
-        // 第二波測試：關燈功能
-        System.out.println("\n📋 測試案例 3: 關燈功能");
-        controller.controlLight("xiaomi", "off");
-        controller.showAllLightStatus();
-
-        // 第三波測試：關燈功能
-        System.out.println("\n📋 測試案例 4: 關燈功能");
-        controller.controlLight("xiaomi", "off");
+        controller.controlLight("philips", "off");
+        controller.controlLight("ikea", "off");
         controller.showAllLightStatus();
     }
 }
