@@ -108,7 +108,10 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountBean, Use
         List<UserAccount> userAccounts = userAccountDAO.findByAccount(username);
         String encodepassword = userAccounts.get(0).getPassword();
         if (!PasswordUtils.matches(currentPassword, encodepassword)) {
-            throw new Exception("Current password is incorrect");
+            throw new Exception("密碼錯誤");
+        }
+        if (newPassword.equals(currentPassword)) {
+            throw new Exception("與舊密碼一樣");
         }
         userAccounts.get(0).setPassword(PasswordUtils.encode(newPassword));
         return null;

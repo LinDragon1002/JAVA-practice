@@ -46,21 +46,15 @@ public class UserAccountController {
                                                  @Valid @RequestParam String currentPassword,
                                                  @Valid @RequestParam String newPassword) {
         try {
-//            if (!newPassword.equals(currentPassword)) {
-//                return ResponseEntityBuilder.error()
-//                        .message("與舊密碼一樣")
-//                        .build();
-//            }
-
             userAccountService.updatePassword(username,currentPassword, newPassword);
+            return ResponseEntityBuilder.success()
+                    .message("更改成功")
+                    .build();
         } catch (Exception e) {
             return ResponseEntityBuilder.error()
                     .message(e.getMessage())
                     .build();
         }
-        return ResponseEntityBuilder.success()
-                .message("更改成功")
-                .build();
     }
 
     // 查詢用戶（需要登入）
