@@ -42,16 +42,15 @@ public class UserAccountController {
     }
 
     @PostMapping(path = "/update")
-    public ResponseEntity<String> updatePassword(@RequestParam String username,
-                                                 @RequestParam String currentPassword,
-                                                 @RequestParam String newPassword,
-                                                 @RequestParam String confirmNewPassword) {
+    public ResponseEntity<String> updatePassword(@Valid @RequestParam String username,
+                                                 @Valid @RequestParam String currentPassword,
+                                                 @Valid @RequestParam String newPassword) {
         try {
-            if (!newPassword.equals(confirmNewPassword)) {
-                return ResponseEntityBuilder.error()
-                        .message("與舊密碼一樣")
-                        .build();
-            }
+//            if (!newPassword.equals(currentPassword)) {
+//                return ResponseEntityBuilder.error()
+//                        .message("與舊密碼一樣")
+//                        .build();
+//            }
 
             userAccountService.updatePassword(username,currentPassword, newPassword);
         } catch (Exception e) {

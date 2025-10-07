@@ -12,7 +12,6 @@ import tw.edu.ntub.imd.birc.practice.databaseconfig.entity.UserAccount;
 import tw.edu.ntub.imd.birc.practice.exception.BircException;
 import tw.edu.ntub.imd.birc.practice.service.UserAccountService;
 import tw.edu.ntub.imd.birc.practice.service.transformer.UserAccountTransformer;
-import java.security.Principal;
 
 import java.util.ArrayList;
 import java.util.Collection;
