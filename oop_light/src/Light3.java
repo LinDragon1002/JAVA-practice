@@ -129,8 +129,13 @@ class LightController3 {
         // 提示：最直接的方式就是if-else判斷
         if (lightStatus.containsKey(brand)) {
             lightStatus.put(brand, action);
+            List<String> brandList = new ArrayList<>(lightStatus.keySet());
+            int brandIndex = brandList.indexOf(brand);
+            int msgIndex = brandIndex + (action.equals("on") ? 0 : 5);
+            System.out.println(" " + brand + msg.get(msgIndex));
         } else {
             lightStatus.put(brand, "不支援此產品");
+            System.out.println("不支援的品牌:" + brand);
         }
     }
     // setBrightness(brand, level) - level 1-100
@@ -139,29 +144,19 @@ class LightController3 {
     public void setBrightness(String brand, int level) {
         if (level > 0 && level < 101) {
             brightness.put(brand,level);
+            System.out.println(brand + " 燈泡亮度調節至 " + level + "%");
+        } else {
+            System.out.println("亮度範圍錯誤: " + level + "(應介於1-100之間)");
         }
     }
 
     public void showAllLightStatus() {
         // 這裡先簡單示範
-        List<String> brandList = new ArrayList<>(lightStatus.keySet());
-
-        for (Map.Entry<String, String> entry : lightStatus.entrySet()) {
-            String brand = entry.getKey();
-            String status = entry.getValue();
-
-            if (status.equals("不支援此產品")) {
-                System.out.println("不支援的品牌:" + brand);
-            } else {
-                int brandIndex = brandList.indexOf(brand);
-                int msgIndex = brandIndex + (status.equals("on") ? 0 : 5);
-                System.out.println(brand + msg.get(msgIndex));
-            }
-        }
+        System.out.println();
         System.out.println("=== 所有燈具狀態總覽 ===");
         for (Map.Entry<String, String> entry : lightStatus.entrySet()) {
             if (!entry.getValue().equals("不支援此產品")) {
-                System.out.println(entry.getKey() + ": " + entry.getValue().toUpperCase() +(brightness.get(entry.getKey()) == null ? "" : " | 亮度: " + brightness.get(entry.getKey()) + "%"));
+                System.out.println(entry.getKey() + ": " + entry.getValue().toUpperCase() +(brightness.get(entry.getKey()) == null ? " | 亮度: 50%" : " | 亮度: " + brightness.get(entry.getKey()) + "%"));
             }
         }
 
