@@ -42,9 +42,9 @@ public class UserAccountController {
     }
 
     @PostMapping(path = "/update")
-    public ResponseEntity<String> updatePassword(@Valid @RequestParam String username,
-                                                 @Valid @RequestParam String currentPassword,
-                                                 @Valid @RequestParam String newPassword) {
+    public ResponseEntity<String> updatePassword(@RequestParam String username,
+                                                 @RequestParam String currentPassword,
+                                                 @RequestParam String newPassword) {
         try {
             userAccountService.updatePassword(username,currentPassword, newPassword);
             return ResponseEntityBuilder.success()
