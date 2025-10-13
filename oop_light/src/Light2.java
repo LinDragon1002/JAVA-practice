@@ -1,4 +1,6 @@
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 // 給學生的起始框架
 //class LightController2 {
@@ -103,10 +105,16 @@ class LightController2 {
     public void controlLight(String brand, String action) {
         // 你的實作在這裡...
         // 提示：最直接的方式就是if-else判斷
+        List<String> brandList = new ArrayList<>(lightStatus.keySet());
+
         if (lightStatus.containsKey(brand)) {
             lightStatus.put(brand, action);
+            int brandIndex = brandList.indexOf(brand);
+            int msgIndex = brandIndex + (action.equals("on") ? 0 : 3);
+            System.out.println(brand + msg.get(msgIndex));
         } else {
             lightStatus.put(brand, "不支援此產品");
+            System.out.println("不支援的品牌: " + brand);
         }
 
     }
@@ -115,18 +123,18 @@ class LightController2 {
         // 這裡先簡單示範
         List<String> brandList = new ArrayList<>(lightStatus.keySet());
 
-        for (Map.Entry<String, String> entry : lightStatus.entrySet()) {
-            String brand = entry.getKey();
-            String status = entry.getValue();
-
-            if (status.equals("不支援此產品")) {
-                System.out.println("不支援的品牌:" + brand);
-            } else {
-                int brandIndex = brandList.indexOf(brand);
-                int msgIndex = brandIndex + (status.equals("on") ? 0 : 3);
-                System.out.println(brand + msg.get(msgIndex));
-            }
-        }
+//        for (Map.Entry<String, String> entry : lightStatus.entrySet()) {
+//            String brand = entry.getKey();
+//            String status = entry.getValue();
+//
+//            if (status.equals("不支援此產品")) {
+//                System.out.println("不支援的品牌:" + brand);
+//            } else {
+//                int brandIndex = brandList.indexOf(brand);
+//                int msgIndex = brandIndex + (status.equals("on") ? 0 : 3);
+//                System.out.println(brand + msg.get(msgIndex));
+//            }
+//        }
         System.out.println("=== 所有燈具狀態總覽 ===");
         for (Map.Entry<String, String> entry : lightStatus.entrySet()) {
             if (!entry.getValue().equals("不支援此產品")) {
