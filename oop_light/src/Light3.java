@@ -121,6 +121,7 @@ class LightController3 {
             "osram","off",
             "yeelight", "off"));
 
+    private static final List<String> BRAND_ORDER = List.of("philips", "xiaomi", "ikea", "osram", "yeelight");
     List<String> msg =  List.of("智慧燈泡優雅點亮","燈泡瞬間點亮","燈具溫馨啟動","專業燈具點亮","智慧燈啟動","智慧燈泡柔和熄滅","燈泡立即關閉","燈具安靜關閉","專業燈具熄滅","智慧燈關閉");
     Map<String, Integer> brightness = new HashMap<>();
 
@@ -129,10 +130,9 @@ class LightController3 {
         // 提示：最直接的方式就是if-else判斷
         if (lightStatus.containsKey(brand)) {
             lightStatus.put(brand, action);
-            List<String> brandList = new ArrayList<>(lightStatus.keySet());
-            int brandIndex = brandList.indexOf(brand);
+            int brandIndex = BRAND_ORDER.indexOf(brand);
             int msgIndex = brandIndex + (action.equals("on") ? 0 : 5);
-            System.out.println(" " + brand + msg.get(msgIndex));
+            System.out.println(brand + msg.get(msgIndex));
         } else {
             lightStatus.put(brand, "不支援此產品");
             System.out.println("不支援的品牌:" + brand);
@@ -171,20 +171,20 @@ public class Light3 {
 
         // 測試用的main方法
         // 測試所有新功能
-        System.out.println("\n 測試案例 1: 基本開關功能");
+        System.out.println("\n測試案例 1: 基本開關功能");
         controller.controlLight("philips", "on");
         controller.controlLight("xiaomi", "on");
         controller.controlLight("ikea", "on");
         controller.controlLight("osram", "on");
         controller.controlLight("yeelight", "on");
 
-        System.out.println("\n 測試案例 2: 亮度調節功能");
+        System.out.println("\n測試案例 2: 亮度調節功能");
         controller.setBrightness("philips", 80);
         controller.setBrightness("xiaomi", 90);
         controller.setBrightness("osram", 75);
         controller.setBrightness("yeelight", 85);
 
-        System.out.println("\n 測試案例 3: 錯誤輸入測試");
+        System.out.println("\n測試案例 3: 錯誤輸入測試");
         controller.setBrightness("philips", 150); // 超出範圍
         controller.controlLight("unknown", "on"); // 不支援品牌
 
