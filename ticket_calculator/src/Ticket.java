@@ -13,6 +13,7 @@ public class Ticket {
         this.holiday = holiday;
     }
     
+    
     public int age() {
         String[] visitParts = visit.split("-");
         String[] birthParts = birth.split("-");
@@ -34,6 +35,7 @@ public class Ticket {
         
         return age;
     }
+    
     
     public int finalPrice() {
         double finalPrice = base;
