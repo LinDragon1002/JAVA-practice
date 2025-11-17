@@ -18,6 +18,9 @@ public class UserAccount {
     @Column(name = "sno" , nullable = false)
     private Integer sno;
 
+    @Column(name = "email_id", length = 254, nullable = false)
+    private String emailId;
+
     @Column(name = "name",length = 45, nullable = false)
     private String username;
 
@@ -39,6 +42,9 @@ public class UserAccount {
 
     @Column(name = "modifydate", nullable = false)
     private LocalDateTime modifyDate;
+
+    @Column(name = "google_id", length = 254, nullable = false)
+    private String googleId;
 
 
 }

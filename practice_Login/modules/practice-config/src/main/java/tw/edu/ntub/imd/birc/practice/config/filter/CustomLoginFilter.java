@@ -26,28 +26,28 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 //        這是google登入使用的判斷
-//        if (request.getMethod().equalsIgnoreCase("POST") && request.getHeader("X-Client-Token") != null) {
-//            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-//                    request.getHeader("X-Client-Token"), null);
-//            setDetails(request, authentication);
-//            return getAuthenticationManager().authenticate(authentication);
-//        } else {
-//            throw new AuthenticationServiceException("認證方法不支援：" + request.getMethod());
-//        }
-        if (request.getMethod().equalsIgnoreCase("POST")) {
-            String account = obtainUsername(request);
-            String password = obtainPassword(request);
-            UsernamePasswordAuthenticationToken authentication;
-            if (request.getContentType().startsWith("application/json")) {
-                authentication = resolveAuthenticationFromRequestBody(request);
-            } else {
-                authentication = new UsernamePasswordAuthenticationToken(account, password);
-            }
+        if (request.getMethod().equalsIgnoreCase("POST") && request.getHeader("X-Client-Token") != null) {
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    request.getHeader("X-Client-Token"), null);
             setDetails(request, authentication);
             return getAuthenticationManager().authenticate(authentication);
         } else {
             throw new AuthenticationServiceException("認證方法不支援：" + request.getMethod());
         }
+//        if (request.getMethod().equalsIgnoreCase("POST")) {
+//            String account = obtainUsername(request);
+//            String password = obtainPassword(request);
+//            UsernamePasswordAuthenticationToken authentication;
+//            if (request.getContentType().startsWith("application/json")) {
+//                authentication = resolveAuthenticationFromRequestBody(request);
+//            } else {
+//                authentication = new UsernamePasswordAuthenticationToken(account, password);
+//            }
+//            setDetails(request, authentication);
+//            return getAuthenticationManager().authenticate(authentication);
+//        } else {
+//            throw new AuthenticationServiceException("認證方法不支援：" + request.getMethod());
+//        }
     }
 
     private UsernamePasswordAuthenticationToken resolveAuthenticationFromRequestBody(HttpServletRequest request) throws AuthenticationException {

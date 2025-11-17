@@ -4,9 +4,12 @@ import org.springframework.stereotype.Repository;
 import tw.edu.ntub.imd.birc.practice.databaseconfig.entity.UserAccount;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserAccountDAO extends BaseDAO<UserAccount, Integer>{
     List<UserAccount> findByAccount(String account);
     Boolean existsByEmail(String email);
+
+    Optional<UserAccount> findByEmailId(String emailId);
 }
